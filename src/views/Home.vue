@@ -1,0 +1,88 @@
+<template>
+  <div class="home">
+    <ul>
+      <li v-for="book in books" :key="book.id">
+        <div class="details">
+          <h3>{{ book.title }}</h3>
+          <p>By {{ book.author }}</p>
+        </div>
+        <div class="icon">
+          <span class="material-icons">favorite</span>
+        </div>
+      </li>
+    </ul>
+    <CreateBookForm />
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue'
+import CreateBookForm from '@/components/CreateBookForm'
+//firebase imports
+import { db } from '@/firebase/config'
+import { collection, getDocs } from 'firebase/firestore'
+
+export default {
+  name: 'Home',
+  components: { CreateBookForm },
+  setup() {
+    const books = ref([])
+
+    //creating collection reference
+    const collectionRef = collection(db, 'books') //before => firebase.firestore().collection(collectionName)
+    //1 argument - passing in the db, so it knows which DB to connect to
+    //2 argument - collection name
+
+    //
+    getDocs(collectionRef)
+      .then(snapshot => {
+        let docs = []
+        snapshot.docs.forEach((doc) => {
+          docs.push({ ...doc.data(), id: doc.id })
+        })
+
+        books.value = docs
+      })
+
+    return { books }
+  }
+}
+</script>
+
+<style>
+.home ul {
+  padding: 0;
+}
+
+.home li {
+  list-style-type: none;
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  display: flex;
+}
+
+.home li .details {
+  margin-right: auto;
+}
+
+.home li h3 {
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.home li h3:hover {
+  cursor: pointer;
+  text-decoration: line-through;
+}
+
+.home li p {
+  margin: 0;
+}
+
+.icon {
+  color: #bbbbbb;
+  cursor: pointer;
+}
+</style>
