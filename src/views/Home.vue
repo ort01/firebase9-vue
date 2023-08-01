@@ -16,33 +16,16 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+// import { ref } from 'vue'
 import CreateBookForm from '@/components/CreateBookForm'
 //firebase imports
-import { db } from '@/firebase/config'
-import { collection, getDocs } from 'firebase/firestore'
+import getCollection from '@/composables/getCollection'
 
 export default {
   name: 'Home',
   components: { CreateBookForm },
   setup() {
-    const books = ref([])
-
-    //creating collection reference
-    const collectionRef = collection(db, 'books') //before => firebase.firestore().collection(collectionName)
-    //1 argument - passing in the db, so it knows which DB to connect to
-    //2 argument - collection name
-
-    //
-    getDocs(collectionRef)
-      .then(snapshot => {
-        let docs = []
-        snapshot.docs.forEach((doc) => {
-          docs.push({ ...doc.data(), id: doc.id })
-        })
-
-        books.value = docs
-      })
+    const { documents: books } = getCollection("books")
 
     return { books }
   }

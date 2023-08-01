@@ -8,7 +8,9 @@ const getCollection = (colName) => {
     const documents = ref(null)
 
     //collection reference
-    let colRef = collection(db, colName)
+    let colRef = collection(db, colName) //before => firebase.firestore().collection(collectionName)
+    //1 argument - passing in the db, so it knows which DB to connect to
+    //2 argument - collection name
 
     //onSnapshot function returns towards another function (unSub) which we need to invoke if we want to unsubscribe from the real time listener.
     const unSub = onSnapshot(colRef, (snapshot) => {
