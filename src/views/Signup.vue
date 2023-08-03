@@ -26,7 +26,7 @@ export default {
     const password = ref('')
 
     //composables
-    const { signUp, error, isPending } = useSignUp()
+    const { signUp, error } = useSignUp()
 
     //router
     const router = useRouter()
