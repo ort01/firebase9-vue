@@ -6,7 +6,7 @@
       <!-- for logged in users -->
       <div>
         <router-link to="/">Home</router-link>
-        <button>Logout</button>
+        <button @click="handleLogOut">Logout</button>
       </div>
 
       <!-- for logged out users -->
@@ -18,9 +18,14 @@
   </div>
 </template>
 
-<script>
-export default {
+<script setup>
+import useLogout from "../composables/useLogout"
 
+//composables
+const { logOut } = useLogout()
+
+const handleLogOut = () => {
+  logOut()
 }
 </script>
 
