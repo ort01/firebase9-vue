@@ -15,7 +15,7 @@ const requireAuth = (to, from, next) => {
   if (currentUser) {
     next()
   } else {
-    next('/login')
+    next({ name: "Login" })
   }
 }
 

@@ -37,13 +37,14 @@ const { user } = getUser()
 
 const handleLogOut = () => {
   logOut()
+  router.push('/login')
 }
 
-watchEffect(() => {
-  if (!user.value) {
-    router.push('/login')
-  }
-})
+// watchEffect(() => {
+//   if (!user.value) {
+//     router.push('/signup')
+//   }
+// })
 </script>
 
 <style>

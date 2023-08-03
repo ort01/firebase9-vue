@@ -21,12 +21,14 @@ import CreateBookForm from '@/components/CreateBookForm'
 //firebase imports
 import getCollection from '@/composables/getCollection'
 import useDocuments from '@/composables/useDocument'
+import getUser from '../composables/getUser'
 
 export default {
   name: 'Home',
   components: { CreateBookForm },
   setup() {
-    const { documents: books } = getCollection("books")
+    const { user } = getUser()
+    const { documents: books } = getCollection("books", ['userID', "==", user.value.uid])
     const { deleteDocument, updateDocument } = useDocuments("books")
 
     const handleDelete = async (book) => {

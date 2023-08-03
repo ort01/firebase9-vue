@@ -15,6 +15,7 @@
 <script>
 import { ref } from 'vue'
 import useCollection from '@/composables/useCollection'
+import getUser from '../composables/getUser'
 
 export default {
   setup() {
@@ -22,12 +23,14 @@ export default {
     const author = ref('')
 
     const { addDocument } = useCollection("books")
+    const { user } = getUser()
 
     const handleSubmit = async () => {
       await addDocument({
         title: title.value,
         author: author.value,
-        isFav: false
+        isFav: false,
+        userID: user.value.uid
       })
 
       title.value = ""
