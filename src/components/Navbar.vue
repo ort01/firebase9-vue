@@ -22,6 +22,14 @@
 <script setup>
 import useLogout from "../composables/useLogout"
 import getUser from '../composables/getUser.js'
+import { watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
+//firebase imports
+import { auth } from '../firebase/config'
+import { signOut } from 'firebase/auth'
+
+//router
+const router = useRouter()
 
 //composables
 const { logOut } = useLogout()
@@ -30,6 +38,12 @@ const { user } = getUser()
 const handleLogOut = () => {
   logOut()
 }
+
+watchEffect(() => {
+  if (!user.value) {
+    router.push('/login')
+  }
+})
 </script>
 
 <style>
